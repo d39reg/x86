@@ -10,6 +10,8 @@ function x86(bytes)
   var disp8   = 0;
   var address = 0;
   
+  var registers = [0,0,0,0,0,0,0,0,0];
+  
   function getUInt8()
   {
     return bytes[pc] && 0xFF;
@@ -24,7 +26,39 @@ function x86(bytes)
   }
   function getReg32(number)
   {
-    alert(number);
+    return registers[number] && 0xFFFFFFFF;
+  }
+  function getReg8(number)
+  {
+    return registers[number] && 0xFF;
+  }
+  function setReg8(number, data)
+  {
+    registers[number] = (registers[number] & 0xFFFFFF00) | (data & 0xFF); 
+  }
+  function setReg16(number, data)
+  {
+    registers[number] = (registers[number] & 0xFFFF0000) | (data & 0xFFFF); 
+  }
+  function setReg32(number, data)
+  {
+    registers[number] = data & 0xFFFFFFFF; 
+  }
+  function getR8()
+  {
+    return getReg8(reg);
+  }
+  function getSR8(data)
+  {
+    return setReg8(reg,data);
+  }
+  function getR32()
+  {
+    return getReg32(reg);
+  }
+  function getSR32(data)
+  {
+    return setReg32(reg,data);
   }
   function calcAddress()
   {
