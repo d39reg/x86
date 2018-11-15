@@ -10,7 +10,7 @@ function x86(bytes)
   var disp8   = 0;
   var address = 0;
   
-  var registers = [0,0,0,0,0,0,0,0,0];
+  var registers = [1,2,3,4,5,6,7,8,9];
   
   var opcode = 0;
   var instructions = [];
@@ -156,11 +156,12 @@ function x86(bytes)
   {
     ModRM(getUInt8());
     setRM8(getR8() + getRM8());
+    console.log(registers);
   }
   
   for (var i = 0; i < bytes.length; i++)
   {
-    opcode = instructions[getUInt8()];
+    opcode = instructions[i];
     if (opcode) opcode();
   }
 }
