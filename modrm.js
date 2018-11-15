@@ -38,23 +38,23 @@ function x86(bytes)
   
   function getUInt8()
   {
-    return bytes[pc] && 0xFF;
+    return bytes[pc] & 0xFF;
   }
   function getInt8()
   {
-    return bytes[pc] && 0xFF;
+    return bytes[pc] & 0xFF;
   }
   function getInt32()
   {
-    return bytes[pc] && 0xFFFFFFFF;
+    return bytes[pc] & 0xFFFFFFFF;
   }
   function getReg32(number)
   {
-    return registers[number] && 0xFFFFFFFF;
+    return registers[number] & 0xFFFFFFFF;
   }
   function getReg8(number)
   {
-    return registers[number] && 0xFF;
+    return registers[number] & 0xFF;
   }
   function setReg8(number, data)
   {
@@ -156,7 +156,7 @@ function x86(bytes)
   {
     ModRM(getUInt8());
     setRM8(getR8() + getRM8());
-    console.log(registers);
+    console.log(getRM8());
   }
   
   while(pc < bytes.length)
