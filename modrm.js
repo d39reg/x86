@@ -159,9 +159,9 @@ function x86(bytes)
     console.log(registers);
   }
   
-  for (var i = 0; i < bytes.length; i++)
+  while(pc < bytes.length)
   {
-    opcode = instructions[i];
+    opcode = instructions[pc++];
     if (opcode) opcode();
   }
 }
