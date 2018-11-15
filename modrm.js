@@ -12,6 +12,27 @@ function x86(bytes)
   
   var registers = [0,0,0,0,0,0,0,0,0];
   
+  function setMem8(address, data)
+  {
+    bytes[address] = data & 0xFF;
+  }
+  function setMem32(address, data)
+  {
+    bytes[address]   = data & 0xFF;
+    bytes[address+1] = (data>>8)  & 0xFF;
+    bytes[address+2] = (data>>16) & 0xFF;
+    bytes[address+3] = (data>>24) & 0xFF;
+  }
+  
+  function getMem8(address)
+  {
+    return bytes[address];
+  }
+  function getMem32(address)
+  {
+    return bytes[address]|(bytes[address+1]>>8)|(bytes[address+2]>>16)|(bytes[address+3]>>24);
+  }
+  
   function getUInt8()
   {
     return bytes[pc] && 0xFF;
@@ -48,17 +69,37 @@ function x86(bytes)
   {
     return getReg8(reg);
   }
+  function getRM8()
+  {
+    if (rm == 0b11) return getReg8(reg);
+    return getMem8(address);
+  }
   function getSR8(data)
   {
     return setReg8(reg,data);
+  }
+  function setRM32(data)
+  {
+    if (rm == 0b11) setReg8(reg,data);
+    else setMem8(address, data);
   }
   function getR32()
   {
     return getReg32(reg);
   }
+  function getRM8()
+  {
+    if (rm == 0b11) return getReg32(reg);
+    return getMem32(address);
+  }
   function getSR32(data)
   {
     return setReg32(reg,data);
+  }
+  function setRM32(data)
+  {
+    if (rm == 0b11) setReg32(reg,data);
+    else setMem32(address, data);
   }
   function calcAddress()
   {
