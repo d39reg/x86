@@ -12,6 +12,9 @@ function x86(bytes)
   
   var registers = [0,0,0,0,0,0,0,0,0];
   
+  var opcode = 0;
+  var instructions = [];
+  
   function setMem8(address, data)
   {
     bytes[address] = data & 0xFF;
@@ -78,7 +81,7 @@ function x86(bytes)
   {
     return setReg8(reg,data);
   }
-  function setRM32(data)
+  function setRM8(data)
   {
     if (rm == 0b11) setReg8(reg,data);
     else setMem8(address, data);
@@ -147,5 +150,17 @@ function x86(bytes)
       address = calcAddress();
     }
 
+  }
+  
+  instructions[0] = function()
+  {
+    ModRM(getUInt8());
+    setRM8(getR8() + getRM8());
+  }
+  
+  for (var i = 0; i < bytes.length; i++)
+  {
+    opcode = instructions[getUInt8()];
+    if (opcode) opcode();
   }
 }
